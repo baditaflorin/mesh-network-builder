@@ -15,14 +15,14 @@ test("mutual = both must scan; one-way shows as 'received'", async ({ browser, b
 
     await a.locator(".mesh-qrx-payload summary").click();
     const aPayload = (await a.locator(".mesh-qrx-payload code").textContent()) ?? "";
-    await b.getByPlaceholder("or paste a mesh:// payload").fill(aPayload);
+    await b.getByPlaceholder("or paste a payload (URL or mesh://)").fill(aPayload);
     await b.getByRole("button", { name: "use", exact: true }).click();
 
     await expect(a.locator("section").nth(1)).toContainText("bob");
 
     await b.locator(".mesh-qrx-payload summary").click();
     const bPayload = (await b.locator(".mesh-qrx-payload code").textContent()) ?? "";
-    await a.getByPlaceholder("or paste a mesh:// payload").fill(bPayload);
+    await a.getByPlaceholder("or paste a payload (URL or mesh://)").fill(bPayload);
     await a.getByRole("button", { name: "use", exact: true }).click();
 
     await expect(a.locator(".viral-status")).toContainText("1 mutual");
