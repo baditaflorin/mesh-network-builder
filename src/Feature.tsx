@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  MeshNameInput,
   QRExchange,
   makeScanPayload,
   type MeshConfig,
@@ -131,13 +132,12 @@ function Body({ room, config }: { room: YRoom; config: MeshConfig }) {
         </p>
       </header>
 
-      <input
+      <MeshNameInput
         className="viral-name"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={setName}
         placeholder="your name"
         maxLength={48}
-        aria-label="your name"
       />
 
       <QRExchange
