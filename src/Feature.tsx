@@ -104,10 +104,10 @@ function Body({ room, config }: { room: YRoom; config: MeshConfig }) {
     downloadBlob(JSON.stringify(data, null, 2), "network.json", "application/json");
   };
 
-  const exportGraphML = () => {
+  const graphmlText = (() => {
     const peers: Array<[string, string]> = [];
     names.forEach((n, id) => peers.push([id, n]));
-    const xml =
+    return (
       `<?xml version="1.0" encoding="UTF-8"?>\n<graphml xmlns="http://graphml.graphdrawing.org/xmlns">\n  <graph id="mesh" edgedefault="directed">\n` +
       peers
         .map(
@@ -119,8 +119,12 @@ function Body({ room, config }: { room: YRoom; config: MeshConfig }) {
       edgeList
         .map((e) => `    <edge source="${escapeXml(e.from)}" target="${escapeXml(e.to)}"/>`)
         .join("\n") +
-      `\n  </graph>\n</graphml>\n`;
-    downloadBlob(xml, "network.graphml", "application/xml");
+      `\n  </graph>\n</graphml>\n`
+    );
+  })();
+
+  const exportGraphML = () => {
+    downloadBlob(graphmlText, "network.graphml", "application/xml");
   };
 
   return (
@@ -185,6 +189,11 @@ function Body({ room, config }: { room: YRoom; config: MeshConfig }) {
           export GraphML
         </button>
       </div>
+
+      <details className="nb-graphml-preview">
+        <summary>preview GraphML export</summary>
+        <pre className="nb-graphml-text">{graphmlText}</pre>
+      </details>
     </div>
   );
 }
