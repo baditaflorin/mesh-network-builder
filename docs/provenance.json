@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "app": "mesh-network-builder",
+  "sourceCommit": "86f0869bc937e573e01a4eac3df5d99dce0220fd",
+  "releaseCommit": "86f0869bc937e573e01a4eac3df5d99dce0220fd",
+  "meshCommonCommit": "025f7ff72e50c4b54a3f4a2d8c88f4f600dec78f",
+  "recordedAt": "2026-08-26T20:40:19Z"
+}
