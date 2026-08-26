@@ -13,6 +13,11 @@ export default defineConfig({
   timeout: 30_000,
   expect: { timeout: 5_000 },
   fullyParallel: false,
+  // Multiple browser workers can share BroadcastChannel/Yjs state on the
+  // same machine and turn an otherwise valid two-peer assertion into a race.
+  // This suite is small; keeping it serial makes the P2P contract meaningful
+  // both locally and on Woodpecker (which does not always set CI=true).
+  workers: 1,
   reporter: process.env["CI"] ? "list" : [["list"], ["json", { outputFile: "test-results.json" }]],
   use: {
     baseURL,

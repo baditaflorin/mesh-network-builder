@@ -7,26 +7,38 @@ const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.ur
 };
 const storagePrefix = pkg.name;
 
+async function prepareContactCard(page: import("@playwright/test").Page, name: string) {
+  await page.getByLabel("Name on your code").fill(name);
+  await page.getByRole("button", { name: "Create my QR code" }).click();
+  await expect(page.locator(".network-qr-exchange")).toBeVisible();
+}
+
+function connectionBlock(page: import("@playwright/test").Page, heading: string) {
+  return page.locator("section.network-connection-block").filter({
+    has: page.getByRole("heading", { name: heading, exact: true }),
+  });
+}
+
 test("mutual = both must scan; one-way shows as 'received'", async ({ browser, baseURL }) => {
   const { a, b, cleanup } = await openTwoPeers(browser, baseURL ?? "", { storagePrefix });
   try {
-    await a.getByPlaceholder("your name").fill("alice");
-    await b.getByPlaceholder("your name").fill("bob");
+    await prepareContactCard(a, "alice");
+    await prepareContactCard(b, "bob");
 
     await a.locator(".mesh-qrx-payload summary").click();
     const aPayload = (await a.locator(".mesh-qrx-payload code").textContent()) ?? "";
     await b.getByPlaceholder("or paste a payload (URL or mesh://)").fill(aPayload);
     await b.getByRole("button", { name: "use", exact: true }).click();
 
-    await expect(a.locator("section").nth(1)).toContainText("bob");
+    await expect(connectionBlock(a, "Waiting on you")).toContainText("bob");
 
     await b.locator(".mesh-qrx-payload summary").click();
     const bPayload = (await b.locator(".mesh-qrx-payload code").textContent()) ?? "";
     await a.getByPlaceholder("or paste a payload (URL or mesh://)").fill(bPayload);
     await a.getByRole("button", { name: "use", exact: true }).click();
 
-    await expect(a.locator(".viral-status")).toContainText("1 mutual");
-    await expect(b.locator(".viral-status")).toContainText("1 mutual");
+    await expect(a.locator(".network-connection-total")).toHaveText("1");
+    await expect(b.locator(".network-connection-total")).toHaveText("1");
   } finally {
     await cleanup();
   }
@@ -46,8 +58,8 @@ test("two-way confirm creates a mutual edge that the GraphML export carries on b
 }) => {
   const { a, b, cleanup } = await openTwoPeers(browser, baseURL ?? "", { storagePrefix });
   try {
-    await a.getByPlaceholder("your name").fill("alice");
-    await b.getByPlaceholder("your name").fill("bob");
+    await prepareContactCard(a, "alice");
+    await prepareContactCard(b, "bob");
 
     // Discover each peer's id from its own QR payload (#…&p=<peerId>&…).
     await a.locator(".mesh-qrx-payload summary").click();
@@ -72,8 +84,8 @@ test("two-way confirm creates a mutual edge that the GraphML export carries on b
     await b.getByPlaceholder("or paste a payload (URL or mesh://)").fill(aPayload);
     await b.getByRole("button", { name: "use", exact: true }).click();
 
-    await expect(a.locator(".viral-status")).toContainText("0 mutual");
-    await expect(b.locator(".viral-status")).toContainText("0 mutual");
+    await expect(a.locator(".network-connection-total")).toHaveText("0");
+    await expect(b.locator(".network-connection-total")).toHaveText("0");
 
     // The single directed edge is B->A. There must be NO A->B edge yet, so the
     // pair is not mutual. Assert the export reflects exactly one directed edge.
@@ -85,8 +97,8 @@ test("two-way confirm creates a mutual edge that the GraphML export carries on b
     await a.getByPlaceholder("or paste a payload (URL or mesh://)").fill(bPayload);
     await a.getByRole("button", { name: "use", exact: true }).click();
 
-    await expect(a.locator(".viral-status")).toContainText("1 mutual");
-    await expect(b.locator(".viral-status")).toContainText("1 mutual");
+    await expect(a.locator(".network-connection-total")).toHaveText("1");
+    await expect(b.locator(".network-connection-total")).toHaveText("1");
 
     // --- Step 3: the GraphML export carries the nodes + BOTH directed edges
     //             on BOTH peers (sync crossed the mesh in both directions). ---
