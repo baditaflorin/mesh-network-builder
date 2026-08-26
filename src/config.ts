@@ -2,6 +2,7 @@ import { createMeshConfig } from "@baditaflorin/mesh-common";
 
 export const config = createMeshConfig({
   appName: "mesh-network-builder",
+  breadcrumbs: false,
   displayName: "Linkfield",
   visualProfile: "field",
   shellLayout: "inset",
