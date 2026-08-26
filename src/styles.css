@@ -1,17 +1,869 @@
 :root {
   color-scheme: dark;
 }
+
 * {
   box-sizing: border-box;
 }
+
 html,
 body,
 #root {
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
-  background: var(--mesh-bg);
+  background: #15170e;
   color: var(--mesh-fg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-family: var(--mesh-font-sans, ui-sans-serif, system-ui, sans-serif);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 0%, rgb(230 189 82 / 12%), transparent 29rem),
+    radial-gradient(circle at 88% 100%, rgb(118 154 94 / 12%), transparent 29rem), #15170e;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.mesh-app-root {
+  background:
+    radial-gradient(circle at 76% 16%, rgb(230 189 82 / 8%), transparent 24rem),
+    linear-gradient(142deg, rgb(255 255 255 / 1.8%), transparent 28%), var(--mesh-canvas);
+}
+
+.network-workspace {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(1rem, 3vw, 2.5rem) max(1rem, env(safe-area-inset-right))
+    max(4.75rem, calc(env(safe-area-inset-bottom) + 4rem)) max(1rem, env(safe-area-inset-left));
+  isolation: isolate;
+}
+
+.network-workspace::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(246 241 220 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(246 241 220 / 3.5%) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  content: "";
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 72%), transparent 72%);
+  pointer-events: none;
+}
+
+.network-hero,
+.network-dashboard {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+}
+
+.network-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16.5rem, 0.68fr);
+  align-items: end;
+  gap: clamp(1.25rem, 4vw, 3.75rem);
+  margin-bottom: clamp(1.1rem, 3vw, 2rem);
+}
+
+.network-hero-copy {
+  max-width: 42rem;
+}
+
+.network-eyebrow,
+.network-step {
+  margin: 0;
+  color: var(--mesh-accent);
+  font-size: 0.69rem;
+  font-weight: 780;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.network-hero h1 {
+  max-width: 11ch;
+  margin: 0.5rem 0 0;
+  color: var(--mesh-fg);
+  font-size: clamp(2.35rem, 5.5vw, 4.65rem);
+  font-weight: 730;
+  letter-spacing: -0.066em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.network-hero-summary {
+  max-width: 37rem;
+  margin: 0.85rem 0 0;
+  color: var(--mesh-muted);
+  font-size: clamp(0.95rem, 1.7vw, 1.08rem);
+  line-height: 1.55;
+}
+
+.network-ledger {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 1rem !important;
+  border-color: color-mix(in srgb, var(--mesh-border) 84%, var(--mesh-accent));
+  background:
+    linear-gradient(130deg, rgb(230 189 82 / 11%), transparent 58%),
+    color-mix(in srgb, var(--mesh-surface) 91%, black);
+}
+
+.network-ledger::after {
+  position: absolute;
+  right: -1.9rem;
+  bottom: -2rem;
+  width: 7rem;
+  height: 7rem;
+  border: 1px solid rgb(230 189 82 / 24%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1rem rgb(230 189 82 / 5%),
+    0 0 0 2rem rgb(230 189 82 / 3%);
+  content: "";
+  pointer-events: none;
+}
+
+.network-ledger-heading,
+.network-section-heading,
+.network-exchange-heading,
+.network-connection-block-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.network-ledger-heading {
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  color: var(--mesh-muted);
+  font-size: 0.78rem;
+  font-weight: 680;
+}
+
+.network-ledger dl {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+}
+
+.network-ledger dl > div {
+  min-width: 0;
+}
+
+.network-ledger dt {
+  min-height: 2.1em;
+  color: var(--mesh-muted);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.network-ledger dd {
+  margin: 0.15rem 0 0;
+  color: var(--mesh-fg);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 710;
+  letter-spacing: -0.04em;
+}
+
+.network-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(19rem, 0.9fr);
+  align-items: start;
+  gap: clamp(0.9rem, 2.4vw, 1.5rem);
+}
+
+.network-contact-card,
+.network-connections {
+  min-width: 0;
+}
+
+.network-contact-card {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--mesh-border) 72%, var(--mesh-accent));
+  background:
+    linear-gradient(155deg, rgb(230 189 82 / 9%), transparent 33%),
+    linear-gradient(315deg, rgb(142 215 161 / 5%), transparent 38%), var(--mesh-surface-raised);
+}
+
+.network-contact-card::before {
+  position: absolute;
+  top: -7rem;
+  right: -4rem;
+  width: 17rem;
+  height: 17rem;
+  border: 1px solid rgb(230 189 82 / 15%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2rem rgb(230 189 82 / 3%),
+    0 0 0 4rem rgb(230 189 82 / 2%);
+  content: "";
+  pointer-events: none;
+}
+
+.network-connections {
+  background: color-mix(in srgb, var(--mesh-surface) 89%, black);
+}
+
+.network-section-heading {
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
+
+.network-section-heading h2,
+.network-exchange-heading h3,
+.network-connection-block h3 {
+  margin: 0.35rem 0 0;
+  color: var(--mesh-fg);
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  font-weight: 710;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.network-route-mark {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid rgb(230 189 82 / 26%);
+  border-radius: 999px;
+  background: rgb(21 23 14 / 45%);
+}
+
+.network-route-mark::before {
+  position: absolute;
+  top: 50%;
+  right: 0.72rem;
+  left: 0.72rem;
+  height: 1px;
+  background: rgb(230 189 82 / 42%);
+  content: "";
+}
+
+.network-route-mark i {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 0.38rem;
+  height: 0.38rem;
+  border: 1px solid var(--mesh-accent);
+  border-radius: 999px;
+  background: var(--mesh-surface);
+}
+
+.network-route-mark i:nth-child(2) {
+  background: var(--mesh-accent);
+}
+
+.network-name-form {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.85rem;
+  margin-top: clamp(1.15rem, 3vw, 1.65rem);
+}
+
+.network-name-input .mesh-name-input-label {
+  color: var(--mesh-muted);
+  font-size: 0.78rem;
+  font-weight: 660;
+  opacity: 1;
+}
+
+.network-name-input .mesh-name-input-counter {
+  color: var(--mesh-muted);
+  opacity: 0.8;
+}
+
+.network-name-input .mesh-name-input-field {
+  min-height: 3.15rem;
+  padding: 0.78rem 0.95rem;
+  border-color: color-mix(in srgb, var(--mesh-border) 86%, transparent);
+  border-radius: 0.85rem;
+  background: rgb(9 11 6 / 33%);
+  color: var(--mesh-fg);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
+  font-size: 1rem;
+}
+
+.network-name-input .mesh-name-input-field::placeholder {
+  color: color-mix(in srgb, var(--mesh-muted) 74%, transparent);
+}
+
+.network-name-input .mesh-name-input-field:focus-visible {
+  border-color: var(--mesh-accent);
+  outline: 2px solid color-mix(in srgb, var(--mesh-accent) 42%, transparent);
+  outline-offset: 2px;
+}
+
+.network-name-input .mesh-name-input-hint {
+  max-width: 58ch;
+  color: var(--mesh-muted);
+  font-size: 0.75rem;
+  line-height: 1.42;
+  opacity: 0.9;
+}
+
+.network-create-card {
+  justify-self: start;
+  width: min(100%, 18rem) !important;
+  border-radius: 0.85rem;
+  box-shadow: 0 0.9rem 2.4rem rgb(230 189 82 / 17%);
+}
+
+.network-card-gate {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 4.35rem;
+  margin-top: 1.1rem;
+  padding: 0.78rem 0.9rem;
+  border: 1px dashed color-mix(in srgb, var(--mesh-border) 82%, transparent);
+  border-radius: 0.85rem;
+  background: rgb(10 12 7 / 23%);
+}
+
+.network-card-gate-index {
+  display: grid;
+  flex: 0 0 auto;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  border: 1px solid rgb(230 189 82 / 38%);
+  border-radius: 0.65rem;
+  color: var(--mesh-accent);
+  font-size: 0.7rem;
+  font-weight: 760;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.network-card-gate p {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--mesh-muted);
+  font-size: 0.82rem;
+  line-height: 1.42;
+}
+
+.network-card-gate-waiting {
+  border-style: solid;
+  border-color: rgb(230 189 82 / 22%);
+}
+
+.network-exchange-wrap {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.25rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgb(246 241 220 / 10%);
+}
+
+.network-exchange-heading {
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.network-exchange-heading h3 {
+  font-size: 1.08rem;
+}
+
+.network-qr-exchange {
+  grid-template-columns: minmax(9.75rem, auto) minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 0.8rem;
+  border: 1px solid rgb(230 189 82 / 18%);
+  border-radius: 1rem;
+  background: linear-gradient(140deg, rgb(230 189 82 / 7%), transparent 55%), rgb(9 11 6 / 37%);
+}
+
+.network-qr-exchange .mesh-qrx-header {
+  top: 0.58rem;
+  right: 0.58rem;
+}
+
+.network-qr-exchange .mesh-qrx-eye {
+  border-color: rgb(246 241 220 / 16%);
+  background: rgb(21 23 14 / 82%);
+  border-radius: 999px;
+  color: var(--mesh-muted);
+  font-size: 0.67rem;
+}
+
+.network-qr-exchange .mesh-qrx-section {
+  gap: 0.55rem;
+}
+
+.network-qr-exchange .mesh-qrx-label {
+  max-width: 15rem;
+  color: var(--mesh-muted);
+  font-size: 0.66rem;
+  font-weight: 710;
+  letter-spacing: 0.09em;
+  line-height: 1.35;
+  opacity: 1;
+}
+
+.network-qr-exchange .mesh-qrx-qr {
+  width: fit-content;
+  padding: 0.45rem;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 0.75rem;
+  background: #f6f1dc;
+  box-shadow: 0 0.9rem 2rem rgb(0 0 0 / 20%);
+}
+
+.network-qr-exchange .mesh-qrx-payload summary {
+  color: var(--mesh-muted);
+}
+
+.network-qr-exchange .mesh-qrx-payload code {
+  max-height: 4.75rem;
+  overflow: auto;
+  border: 1px solid rgb(246 241 220 / 8%);
+  background: rgb(0 0 0 / 20%);
+  color: var(--mesh-muted);
+  line-height: 1.35;
+}
+
+.network-qr-exchange .mesh-qrx-actions {
+  margin-top: 1.25rem;
+}
+
+.network-qr-exchange .mesh-qrx-btn {
+  width: 100%;
+  min-height: 2.9rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.75rem;
+  background: var(--mesh-accent);
+  color: var(--mesh-accent-text);
+  font-weight: 760;
+  text-align: center;
+}
+
+.network-qr-exchange .mesh-qrx-video {
+  max-width: 100%;
+  border: 1px solid rgb(246 241 220 / 15%);
+  border-radius: 0.75rem;
+}
+
+.network-qr-exchange .mesh-qrx-paste {
+  gap: 0.45rem;
+}
+
+.network-qr-exchange .mesh-qrx-paste input {
+  min-height: 2.7rem;
+  border-color: rgb(246 241 220 / 14%);
+  border-radius: 0.7rem;
+  background: rgb(0 0 0 / 20%);
+}
+
+.network-qr-exchange .mesh-qrx-paste button {
+  min-width: 3.75rem;
+  min-height: 2.7rem;
+  border-radius: 0.7rem;
+  border-color: rgb(246 241 220 / 20%);
+}
+
+.network-confirmation-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: confirmation;
+}
+
+.network-exchange-notice {
+  margin: 0.75rem 0 0;
+  padding: 0.62rem 0.7rem;
+  border: 1px solid rgb(142 215 161 / 26%);
+  border-radius: 0.65rem;
+  background: rgb(142 215 161 / 7%);
+  color: var(--mesh-success);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.network-exchange-notice.is-warning {
+  border-color: rgb(230 189 82 / 36%);
+  background: rgb(230 189 82 / 8%);
+  color: var(--mesh-warning);
+}
+
+.network-confirmation-path li {
+  position: relative;
+  min-width: 0;
+  padding: 0.55rem 0.55rem 0.55rem 1.85rem;
+  border: 1px solid rgb(246 241 220 / 9%);
+  border-radius: 0.65rem;
+  color: var(--mesh-muted);
+  font-size: 0.71rem;
+  line-height: 1.35;
+  counter-increment: confirmation;
+}
+
+.network-confirmation-path li::before {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.55rem;
+  color: var(--mesh-accent);
+  content: counter(confirmation, decimal-leading-zero);
+  font-size: 0.58rem;
+  font-weight: 760;
+}
+
+.network-connection-total {
+  display: grid;
+  width: 2.65rem;
+  height: 2.65rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgb(142 215 161 / 36%);
+  border-radius: 50%;
+  background: rgb(142 215 161 / 8%);
+  color: var(--mesh-success);
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+}
+
+.network-connection-block {
+  padding: 1.05rem 0;
+  border-bottom: 1px solid rgb(246 241 220 / 9%);
+}
+
+.network-connection-block-heading {
+  align-items: center;
+}
+
+.network-connection-block h3 {
+  margin: 0;
+  color: var(--mesh-fg);
+  font-size: 0.88rem;
+  font-weight: 710;
+  letter-spacing: -0.018em;
+}
+
+.network-connection-block-heading > span {
+  display: grid;
+  min-width: 1.45rem;
+  height: 1.45rem;
+  place-items: center;
+  border-radius: 999px;
+  background: rgb(246 241 220 / 7%);
+  color: var(--mesh-muted);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.network-empty-state {
+  max-width: 36ch;
+  margin: 0.55rem 0 0;
+  color: var(--mesh-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.network-person-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.network-person-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid rgb(246 241 220 / 8%);
+  border-radius: 0.7rem;
+  background: rgb(0 0 0 / 12%);
+}
+
+.network-person-list strong {
+  overflow: hidden;
+  color: var(--mesh-fg);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network-person-list li > span:last-child {
+  color: var(--mesh-muted);
+  font-size: 0.66rem;
+  white-space: nowrap;
+}
+
+.network-person-mark {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--mesh-success);
+  box-shadow: 0 0 0 0.2rem rgb(142 215 161 / 10%);
+}
+
+.network-person-mark-waiting {
+  background: var(--mesh-warning);
+  box-shadow: 0 0 0 0.2rem rgb(230 189 82 / 10%);
+}
+
+.network-person-mark-awaiting {
+  background: var(--mesh-muted);
+  box-shadow: 0 0 0 0.2rem rgb(189 185 161 / 8%);
+}
+
+.network-export-panel {
+  padding-top: 1rem;
+}
+
+.network-export-panel summary {
+  color: var(--mesh-fg);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.network-export-panel summary::marker {
+  color: var(--mesh-accent);
+}
+
+.network-export-panel p {
+  margin: 0.6rem 0 0;
+  color: var(--mesh-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.network-export-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.network-export-actions .mesh-button {
+  border-radius: 0.65rem;
+  font-size: 0.74rem;
+}
+
+.nb-graphml-text {
+  max-height: 13rem;
+  margin: 0.75rem 0 0;
+  overflow: auto;
+  padding: 0.7rem;
+  border: 1px solid rgb(246 241 220 / 8%);
+  border-radius: 0.65rem;
+  background: rgb(0 0 0 / 18%);
+  color: var(--mesh-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.67rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.network-workspace > .mesh-self-ref {
+  position: fixed;
+  right: max(0.85rem, env(safe-area-inset-right));
+  bottom: max(0.6rem, env(safe-area-inset-bottom));
+  padding: 0.28rem 0.48rem;
+  border: 1px solid rgb(246 241 220 / 9%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--mesh-canvas) 84%, transparent);
+  box-shadow: 0 0.6rem 1.4rem rgb(0 0 0 / 22%);
+  backdrop-filter: blur(12px);
+}
+
+.network-workspace > .mesh-self-ref a {
+  color: var(--mesh-accent);
+}
+
+@media (max-width: 51rem) {
+  .network-workspace {
+    padding-top: 0.9rem;
+  }
+
+  .network-hero,
+  .network-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .network-hero {
+    gap: 1rem;
+  }
+
+  .network-ledger {
+    max-width: 38rem;
+  }
+}
+
+@media (max-width: 34rem) {
+  .network-workspace {
+    padding-inline: max(0.85rem, env(safe-area-inset-right)) max(0.85rem, env(safe-area-inset-left));
+  }
+
+  .network-hero h1 {
+    max-width: 13ch;
+    font-size: clamp(2.25rem, 12.2vw, 3.25rem);
+  }
+
+  .network-hero-summary {
+    margin-top: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .network-ledger dl {
+    gap: 0.45rem;
+  }
+
+  .network-ledger dt {
+    font-size: 0.62rem;
+  }
+
+  .network-contact-card,
+  .network-connections {
+    padding: 1rem !important;
+  }
+
+  .network-workspace > .mesh-self-ref {
+    font-size: 0.64rem;
+  }
+
+  .network-create-card {
+    width: 100% !important;
+  }
+
+  .network-exchange-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .network-qr-exchange {
+    grid-template-columns: 1fr;
+  }
+
+  .network-qr-exchange .mesh-qrx-qr {
+    margin-inline: auto;
+  }
+
+  .network-qr-exchange .mesh-qrx-actions {
+    margin-top: 0;
+  }
+
+  .network-confirmation-path {
+    grid-template-columns: 1fr;
+  }
+
+  .network-confirmation-path li {
+    padding-top: 0.48rem;
+    padding-bottom: 0.48rem;
+  }
+}
+
+@media (min-width: 51.0625rem) and (max-height: 44rem) {
+  .network-workspace {
+    padding-top: 0.55rem;
+    padding-bottom: 3.25rem;
+  }
+
+  .network-hero {
+    gap: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .network-hero h1 {
+    font-size: clamp(2.15rem, 4.7vw, 3.4rem);
+  }
+
+  .network-hero-summary {
+    margin-top: 0.45rem;
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .network-ledger {
+    padding: 0.75rem 0.9rem !important;
+  }
+
+  .network-ledger dl {
+    margin-top: 0.6rem;
+  }
+
+  .network-dashboard {
+    gap: 0.9rem;
+  }
+
+  .network-contact-card,
+  .network-connections {
+    padding: 1rem !important;
+  }
+
+  .network-name-form {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 0.7rem;
+    margin-top: 0.8rem;
+  }
+
+  .network-create-card {
+    width: auto !important;
+    min-width: 12.25rem;
+    min-height: 3.15rem;
+  }
+
+  .network-name-input .mesh-name-input-hint {
+    display: none;
+  }
+
+  .network-card-gate {
+    min-height: 3.45rem;
+    margin-top: 0.75rem;
+  }
+
+  .network-card-gate p {
+    font-size: 0.75rem;
+  }
+
+  .network-connection-block {
+    padding-block: 0.68rem;
+  }
+
+  .network-empty-state {
+    margin-top: 0.35rem;
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .network-workspace,
+  .network-contact-card,
+  .network-ledger {
+    scroll-behavior: auto;
+  }
 }

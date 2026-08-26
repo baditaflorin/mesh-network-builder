@@ -1,17 +1,18 @@
 # Security audit — mesh-network-builder
 
-Generated: **2026-05-17T13:27:39.180Z** · 16 checks · 16 pass · 0 fail
+Generated: **2026-08-26T02:46:06.305Z** · 16 checks · 16 pass · 0 fail
 
 > A programmatic, CPU-only verification of every claim in the four-layer security stack.
 > Re-run with `npm run audit:security` from this repo. Source: `mesh-common/tests/securityAudit.test.ts`
-> This app does not render the moderator badge yet — only the shared crypto invariants are exercised. The layer-1 guarantees still apply by virtue of bundling `mesh-common`.
+>
+> - this app's `tests/e2e/security-audit.spec.ts`.
 
 ## Result
 
 ✅ **All checks pass.**
 
 - crypto / Y.Doc invariants: **16 / 16**
-- UI-flow checks: **0** _(this app does not yet expose the moderator UI; pass 2 skipped)_
+- UI-flow checks: **0**
 
 ## Checks
 
@@ -42,8 +43,8 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "pubkeyA": "8105ac25d7d9d0785c2033d47d72876e301251833a92fa5ddb328bbe78d23dc5",
-  "pubkeyB": "8105ac25d7d9d0785c2033d47d72876e301251833a92fa5ddb328bbe78d23dc5"
+  "pubkeyA": "047b7b1389798f7d885e55d74d14a88c97376be309b4d013d7b6ddfb9fd62975",
+  "pubkeyB": "047b7b1389798f7d885e55d74d14a88c97376be309b4d013d7b6ddfb9fd62975"
 }
 ```
 
@@ -51,8 +52,8 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "pubkeyA": "6497d46315abd57b",
-  "pubkeyB": "4f4846879e13f7b0"
+  "pubkeyA": "714169ca2f49206c",
+  "pubkeyB": "01b834a024a82bb2"
 }
 ```
 
@@ -69,8 +70,8 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "plantedExpiresAt": 1779024399173,
-  "now": 1779024459175
+  "plantedExpiresAt": 1787712306298,
+  "now": 1787712366301
 }
 ```
 
@@ -78,8 +79,8 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "realPubkey": "252b59d9071ae0d8",
-  "forgerPubkey": "80757a3b08b3b687"
+  "realPubkey": "f54163d58173c3ea",
+  "forgerPubkey": "cd2d1d31f306b1c7"
 }
 ```
 
@@ -97,7 +98,7 @@ Selected captured evidence (full payloads in `security-audit.json`):
 ```json
 {
   "sigLen": 128,
-  "pubkeyPrefix": "a08af979a75724cb"
+  "pubkeyPrefix": "d152500a753dcb7f"
 }
 ```
 
@@ -105,7 +106,7 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "fingerprint": "63-f5-8e-1b"
+  "fingerprint": "ae-b6-e6-12"
 }
 ```
 
@@ -113,7 +114,7 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "peerId": "01d9ba9c0fb362a8"
+  "peerId": "096947932a8dd675"
 }
 ```
 
@@ -122,7 +123,7 @@ Selected captured evidence (full payloads in `security-audit.json`):
 ```json
 {
   "peerId": "alice",
-  "pubkeyPrefix": "fe3066aea27f0e79",
+  "pubkeyPrefix": "344f96234d84c1bb",
   "sigLen": 128
 }
 ```
@@ -131,8 +132,8 @@ Selected captured evidence (full payloads in `security-audit.json`):
 
 ```json
 {
-  "forgedPubkey": "a79091514ecc7404",
-  "realPubkey": "73f3be48c8c029d6"
+  "forgedPubkey": "4a059f2dccbf0905",
+  "realPubkey": "177f2cec67f89034"
 }
 ```
 
